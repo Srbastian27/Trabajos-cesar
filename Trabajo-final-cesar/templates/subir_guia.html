@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Subir Nueva Guía de Aprendizaje</h3>
+                </div>
+                
+                <div class="card-body">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+                    <form method="POST" action="{{ url_for('subir_guia') }}" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre de la Guía</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="descripcion" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="programa" class="form-label">Programa de Formación</label>
+                            <input type="text" class="form-control" id="programa" name="programa" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="archivo" class="form-label">Archivo de la Guía (PDF)</label>
+                            <input class="form-control" type="file" id="archivo" name="archivo" accept=".pdf" required>
+                            <div class="form-text">Solo se permiten archivos PDF.</div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Subir Guía</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Registro de Instructores SENA</h3>
+                </div>
+                
+                <div class="card-body">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+                    <form method="POST" action="{{ url_for('registro') }}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre completo</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" 
+                                   required pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]{3,50}">
+                            <div class="form-text">Mínimo 3 caracteres, solo letras</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Correo institucional</label>
+                            <input type="email" class="form-control" id="email" name="email"
+                                   required placeholder="ejemplo@misena.edu.co">
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="regional" class="form-label">Regional</label>
+                            <select class="form-select" id="regional" name="regional" required>
+                                <option value="" selected disabled>Seleccione su regional</option>
+                                <option value="Cauca">Cauca</option>
+                                <option value="Huila">Huila</option>
+                                <option value="Antioquia">Antioquia</option>
+                                <option value="Valle">Valle</option>
+                                <option value="Nariño">Nariño</option>
+                            </select>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-person-plus-fill me-2"></i>Registrarse
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="card-footer text-center bg-light">
+                    <small class="text-muted">
+                        ¿Ya tienes cuenta? 
+                        <a href="{{ url_for('login') }}" class="text-decoration-none">Inicia sesión aquí</a>
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
